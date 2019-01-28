@@ -1,0 +1,44 @@
+version: "3.1"
+services:
+
+    mariadb:
+        image: bitnami/mariadb:latest
+        container_name: contact-dev-mariadb
+        working_dir: /bitnami/mariadb
+        volumes:
+            - ./data/mariadb:/bitnami/mariadb
+        environment:
+            - MARIADB_ROOT_PASSWORD=admin123
+            - MARIADB_DATABASE=contact_service
+            - MARIADB_USER=hub
+            - MARIADB_PASSWORD=hubadmin
+        ports:
+            - "8890:3306"
+
+    webserver:
+        image: nginx:alpine
+        container_name: contact-dev-webserver
+        working_dir: /var/www/contact-app
+        volumes:
+            - ./service:/var/www/contact-app
+            - ./phpdocker/nginx/nginx.conf:/etc/nginx/conf.d/default.conf
+            - ./logs:/var/log/nginx
+        depends_on:
+            - php-fpm
+        ports:
+            - "8888:80"
+
+    php-fpm:
+        build: phpdocker/php-fpm
+        container_name: contact-dev-php-fpm
+        working_dir: /var/www/contact-app
+        volumes:
+            - ./service:/var/www/contact-app
+            - ./phpdocker/php-fpm/php-ini-overrides.ini:/etc/php/7.2/fpm/conf.d/99-overrides.ini
+
+    composer:
+        build: phpdocker/composer
+        container_name: contact-dev-composer
+        working_dir: /var/www/contact-app
+        volumes:
+            - ./service:/var/www/contact-app
