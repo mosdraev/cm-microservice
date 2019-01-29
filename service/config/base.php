@@ -3,14 +3,18 @@
 $config = [
     'id' => 'contact-service-api',
     'basePath' => dirname(__DIR__),
-    'controllerNamespace' => 'contact\controllers',
+    'controllerNamespace' => 'contact\modules\api\v1\controllers',
     // set an alias to enable autoloading of classes from the 'micro' namespace
     'aliases' => [
         '@contact' => dirname(__DIR__),
         // Add this alias when using asset-packagist.org instead of fxp/composer-asset-plugin
         '@bower' => '@vendor/bower-asset',
     ],
-    'modules' => [],
+    'modules' => [
+        'v1' => [
+            'class' => 'contact\modules\api\v1\Module'
+        ]
+    ],
     'components' => [
         'db' => [
             'class'    => 'yii\db\Connection',
@@ -37,11 +41,13 @@ $config = [
             'enableStrictParsing' => true,
             'rules' => [
                 // default rules for URL routes
-                '<module:\w+>/<controller:[\w\-]+>/<action:[\w\-]+>' => '<module>/<controller>/<action>',
-                '<module:\w+>/<submodule:[\w\-]+>/<controller:[\w\-]+>/<action:[\w\-]+>' => '<module>/<submodule>/<controller>/<action>',
+                '<module:\w+>/<controller:\w+>' => '<module>/<controller>',
+                '<module:\w+>/<controller:\w+>/<action:\w+>' => '<module>/<controller>/<action>',
+                '<module:\w+>/<submodule:\w+>/<controller:\w+>/<action:\w+>' => '<module>/<submodule>/<controller>/<action>',
                 [
                     'class' => 'yii\rest\UrlRule',
-                    'pluralize' => false
+                    'pluralize' => false,
+                    'controller' => 'contact'
                 ]
             ]
         ],
@@ -67,7 +73,7 @@ if (YII_ENV_DEV) {
     $config['bootstrap'][] = 'gii';
     $config['modules']['gii'] = [
         'class' => 'yii\gii\Module',
-        'allowedIPs' => ['*'],
+        'allowedIPs' => ['172.18.0.1'],
     ];
 }
 
