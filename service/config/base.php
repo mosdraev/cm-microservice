@@ -47,7 +47,11 @@ $config = [
                 [
                     'class' => 'yii\rest\UrlRule',
                     'pluralize' => false,
-                    'controller' => 'contact'
+                    'controller' => 'contact',
+                    'extraPatterns' => [
+                        // 'GET welcome' => 'welcome',
+                        // method action => action
+                    ]
                 ]
             ]
         ],
