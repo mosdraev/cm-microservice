@@ -22,8 +22,5 @@ composer.phar
 # Mac DS_Store Files
 .DS_Store
 
-# Docker
-phpdocker/*
-
 # env configs
 .env

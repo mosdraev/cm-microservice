@@ -26,7 +26,7 @@ services:
         depends_on:
             - php-fpm
         ports:
-            - "8888:80"
+            - "8080:80"
 
     php-fpm:
         build: phpdocker/php-fpm
