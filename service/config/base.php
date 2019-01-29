@@ -12,10 +12,20 @@ $config = [
     ],
     'modules' => [],
     'components' => [
+        'db' => [
+            'class'    => 'yii\db\Connection',
+            'dsn'	   => getenv('DB_DSN'),
+            'username' => getenv('DB_USERNAME'),
+            'password' => getenv('DB_PASSWORD'),
+            'charset'  => getenv('DB_CHARSET')
+        ],
         'request' => [
             // Cookie and CSRF validation are disabled for this service
             'enableCookieValidation' => false,
-            'enableCsrfValidation' => false
+            'enableCsrfValidation' => false,
+            'parsers' => [
+                'application/json' => 'yii\web\JsonParser',
+            ]
         ],
         'urlManager' => [
             'enablePrettyUrl' => true,
