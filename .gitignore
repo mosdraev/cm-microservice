@@ -13,7 +13,6 @@ nbproject
 Thumbs.db
 
 # logs
-data/*
 logs/*
 
 # composer itself is not needed
