@@ -1,6 +1,13 @@
 version: "3.1"
 services:
 
+    mariadb-fixes:
+        image: bitnami/mariadb:latest
+        user: root
+        command: bash -c "chown 1001:1001 -R /bitnami"
+        volumes:
+          - ./data/mariadb:/bitnami/mariadb
+
     mariadb:
         image: bitnami/mariadb:latest
         container_name: contact-dev-mariadb
@@ -14,6 +21,8 @@ services:
             - MARIADB_PASSWORD=hubadmin
         ports:
             - "8890:3306"
+        depends_on:
+          - mariadb-fixes
 
     webserver:
         image: nginx:alpine
